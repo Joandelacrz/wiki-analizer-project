@@ -1,29 +1,31 @@
-.loading {
-  text-align: center;
-  font-style: italic;
-}
-
+.loading,
 .noResults {
   text-align: center;
-  margin-top: 20px;
+  margin: 2rem 0;
+  font-style: italic;
+  color: #555;
 }
 
 .resultsList {
-  list-style: none;
+  display: grid;
+  gap: 0.5rem;
   padding: 0;
-  margin: 0 20px;
+  margin: 1rem auto;
+  max-width: 700px;
 }
 
 .resultItem {
-  background-color: white;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+  list-style: none;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #eee;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background var(--transition), box-shadow var(--transition);
 }
-
-.resultItem:hover {
-  background-color: #f1f1f1;
+.resultItem:hover,
+.resultItem:focus {
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  outline: none;
 }

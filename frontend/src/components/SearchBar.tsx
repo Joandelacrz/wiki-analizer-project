@@ -1,51 +1,41 @@
-// frontend/src/components/SearchBar.tsx
+import React, { useState } from "react";
 
-import React, { useState, FormEvent } from "react";
-
-interface Props {
-  onSearch: (term: string) => void;
+interface SearchBarProps {
+  onSearch: (query: string) => void;
 }
 
-const SearchBar: React.FC<Props> = ({ onSearch }) => {
-  const [term, setTerm] = useState("");
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (term.trim().length === 0) return;
-    onSearch(term.trim());
+    const trimmed = query.trim();
+    if (trimmed) onSearch(trimmed);
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
-      <input
-        type="text"
-        value={term}
-        onChange={(e) => setTerm(e.target.value)}
-        placeholder="Buscar en Wikipedia..."
-        style={{
-          width: "80%",
-          padding: "0.5rem",
-          fontSize: "1rem",
-          borderRadius: "4px 0 0 4px",
-          border: "1px solid #ccc",
-          outline: "none",
-        }}
-      />
-      <button
-        type="submit"
-        style={{
-          padding: "0.5rem 1rem",
-          fontSize: "1rem",
-          border: "1px solid #ccc",
-          borderLeft: "none",
-          borderRadius: "0 4px 4px 0",
-          backgroundColor: "#1976d2",
-          color: "white",
-          cursor: "pointer",
-        }}
-      >
-        Buscar
-      </button>
+    <form
+      onSubmit={handleSubmit}
+      className="container my-4"
+      role="search"
+      aria-label="Buscador de artículos"
+    >
+      <div className="input-group">
+        <input
+          type="search"
+          className="form-control"
+          placeholder="Buscar artículos..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          aria-describedby="search-help"
+        />
+        <button className="btn btn-primary" type="submit">
+          Buscar
+        </button>
+      </div>
+      <div id="search-help" className="form-text text-center">
+        Presiona Enter o haz clic en Buscar
+      </div>
     </form>
   );
 };

@@ -1,0 +1,61 @@
+.searchbar-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.searchbar-input {
+  flex: 1 1 250px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 50px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.searchbar-input:focus {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 4px rgba(52,152,219,0.2);
+  outline: none;
+}
+
+.searchbar-button {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  background: var(--clr-accent);
+  color: #fff;
+  transition: background var(--transition), transform var(--transition);
+}
+.searchbar-button:hover,
+.searchbar-button:focus-visible {
+  background: darken(var(--clr-accent), 10%);
+  transform: scale(1.05);
+  outline: none;
+}
+.searchbar-button:active {
+  transform: scale(0.95);
+}
+
+.searchbar-help {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  border: 0;
+}

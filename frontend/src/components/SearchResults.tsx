@@ -1,5 +1,3 @@
-// frontend/src/components/SearchResults.tsx
-
 import React from "react";
 import { WikiSearchResult } from "../types";
 
@@ -10,25 +8,28 @@ interface Props {
 
 const SearchResults: React.FC<Props> = ({ results, onSelect }) => {
   if (results.length === 0) {
-    return <p>No se encontraron resultados.</p>;
+    return (
+      <div className="container">
+        <p className="text-center mt-4">No se encontraron resultados.</p>
+      </div>
+    );
   }
 
   return (
-    <ul style={{ listStyle: "none", padding: 0 }}>
-      {results.map((item) => (
-        <li
-          key={item.pageid}
-          onClick={() => onSelect(item.pageid)}
-          style={{
-            cursor: "pointer",
-            padding: "0.5rem",
-            borderBottom: "1px solid #eee",
-          }}
-        >
-          {item.title}
-        </li>
-      ))}
-    </ul>
+    <div className="container">
+      <ul className="list-group">
+        {results.map(item => (
+          <li
+            key={item.pageid}
+            onClick={() => onSelect(item.pageid)}
+            className="list-group-item list-group-item-action"
+            style={{ cursor: "pointer" }}
+          >
+            {item.title}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

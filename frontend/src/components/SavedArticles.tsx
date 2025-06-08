@@ -1,79 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { SavedArticle } from "../types";
 import { getSavedArticles, deleteSavedArticle } from "../services/api";
-import styles from "../styles/SavedArticles.module.css";
 
 const SavedArticles: React.FC = () => {
   const [articles, setArticles] = useState<SavedArticle[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-
-  const fetchSaved = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const data = await getSavedArticles();
-
-      // Validación de formato
-      if (!Array.isArray(data)) {
-        throw new Error("Formato inválido de la respuesta del servidor.");
-      }
-
-      setArticles(data);
-    } catch (err) {
-      console.error(err);
-      setError("Error al cargar artículos guardados.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchSaved();
+    setLoading(true);
+    getSavedArticles()
+      .then(data => {
+        if (!Array.isArray(data)) throw new Error();
+        setArticles(data);
+      })
+      .catch(() => setError("Error al cargar artículos guardados."))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = async (id: number) => {
     try {
       await deleteSavedArticle(id);
-      setArticles((prev) => prev.filter((a) => a.id !== id));
+      setArticles(prev => prev.filter(a => a.id !== id));
     } catch {
       alert("No se pudo eliminar el artículo.");
     }
   };
 
-  if (loading) {
-    return <p className={styles.loading}>Cargando artículos guardados...</p>;
-  }
-  if (error) {
-    return <p className={styles.error}>{error}</p>;
-  }
-  if (articles.length === 0) {
-    return <p className={styles.noSaved}>No hay artículos guardados.</p>;
-  }
+  if (loading) return <p className="text-center py-4">Cargando artículos...</p>;
+  if (error) return <p className="text-center text-danger py-4">{error}</p>;
+  if (articles.length === 0)
+    return <p className="text-center py-4">No hay artículos guardados.</p>;
 
   return (
-    <div className={styles.container}>
-      <h3>Mis Artículos Guardados</h3>
-      <button onClick={fetchSaved} className={styles.reloadButton}>
-        Recargar
-      </button>
-      <ul className={styles.list}>
-        {articles.map((art) => (
-          <li key={art.id} className={styles.item}>
-            <div>
-              <a href={art.url} target="_blank" rel="noopener noreferrer">
-                {art.title}
-              </a>
-              <p className={styles.date}>
-                Guardado: {new Date(art.date_saved).toLocaleString()}
-              </p>
-            </div>
+    <div className="container my-4">
+      <h2 className="mb-3">Artículos Guardados</h2>
+      <ul className="list-group">
+        {articles.map(({ id, title, url }) => (
+          <li
+            key={id}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {title}
+            </a>
             <button
-              className={styles.deleteButton}
-              onClick={() => handleDelete(art.id)}
-              aria-label={`Eliminar el artículo ${art.title}`}
+              onClick={() => handleDelete(id)}
+              className="btn btn-outline-danger btn-sm"
+              aria-label={`Eliminar artículo ${title}`}
             >
-              Eliminar
+              🗑️
             </button>
           </li>
         ))}

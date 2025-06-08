@@ -1,33 +1,87 @@
 .container {
-  background-color: white;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.loading {
-  text-align: center;
-  font-style: italic;
-  margin: 20px;
+.title {
+  font-size: 1.75rem;
+  color: #2c3e50;
+  margin: 0;
 }
 
-.placeholder {
-  text-align: center;
-  margin: 20px;
-  font-style: italic;
+.url {
+  color: #3498db;
+  word-break: break-all;
+  transition: color 0.3s ease;
+}
+.url:hover,
+.url:focus {
+  color: #21618c;
+  text-decoration: underline;
+  outline: none;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 0.25rem;
 }
 
 .summary {
-  line-height: 1.5;
-  margin-bottom: 10px;
+  line-height: 1.6;
+  text-align: justify;
 }
 
-.saveButton {
-  margin-top: 15px;
-  padding: 10px 15px;
-  background-color: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
+.wordList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wordList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+.wordList li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Título pequeño para subtítulos de sección */
+.subtitle {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+/* en ArticleDetail.module.css o tu CSS dedicado */
+.countBadge {
+  background: rgba(52, 152, 219, 0.1); /* tono ligero del acento */
+  color: var(--clr-accent);
+  border-radius: 999px;               /* píldora totalmente redonda */
+  padding: 0.15rem 0.6rem;            /* más compacto */
+  font-size: 0.8rem;                  /* un pelín más pequeño */
+  font-weight: 500;
+  min-width: 1.5em;                   /* asegura ancho mínimo */
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.countBadge:hover {
+  background: rgba(52, 152, 219, 0.2);
 }

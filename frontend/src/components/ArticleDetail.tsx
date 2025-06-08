@@ -1,5 +1,6 @@
 import React from "react";
 import { WikiDetail } from "../types";
+import styles from "../styles/ArticleDetail.module.css";
 
 interface Props {
   detail: WikiDetail;
@@ -8,71 +9,63 @@ interface Props {
 }
 
 const ArticleDetail: React.FC<Props> = ({ detail, onBack, onSave }) => {
-  return (
-    <div style={{ marginTop: "1rem" }}>
-      <button
-        onClick={onBack}
-        style={{
-          marginBottom: "1rem",
-          padding: "0.4rem 0.8rem",
-          fontSize: "0.9rem",
-          backgroundColor: "#f0f0f0",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
-      >
-        ← Volver a resultados
-      </button>
+  // Cortamos a 10 palabras frecuentes como máximo
+  const topWords = detail.analysis.top_words.slice(0, 10);
 
-      <h2 style={{ marginBottom: "0.5rem" }}>{detail.title}</h2>
-      <p>
+  return (
+    <div className={styles.container}>
+      {/* Encabezado */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h1 className={styles.title}>{detail.title}</h1>
+        <button
+          onClick={onBack}
+          className="btn btn-outline-secondary btn-sm"
+        >
+          ← Volver
+        </button>
+      </div>
+
+      {/* URL original + Guardar */}
+      <p className="mb-2">
         <strong>URL original:</strong>{" "}
-        <a href={detail.url} target="_blank" rel="noopener noreferrer">
+        <a
+          href={detail.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.url}
+        >
           {detail.url}
         </a>
       </p>
-
-      <a
-        href={`https://es.wikipedia.org/?curid=${detail.pageid}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: "block", margin: "1rem 0" }}
-      >
-        Enlace al artículo original
-      </a>
-
       <button
         onClick={() => onSave(detail)}
-        style={{
-          marginBottom: "1rem",
-          padding: "0.5rem 1rem",
-          backgroundColor: "#d1e7dd",
-          border: "1px solid #0f5132",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
+        className="btn btn-success mb-4"
       >
         Guardar Artículo
       </button>
 
-      <h3>Resumen</h3>
-      <p style={{ lineHeight: "1.6" }}>{detail.summary}</p>
+      {/* Resumen */}
+      <section className="mb-4">
+        <h2 className={styles.sectionTitle}>Resumen</h2>
+        <p className={styles.summary}>{detail.summary}</p>
+      </section>
 
-      <h3>Análisis</h3>
-      <p>
-        <strong>Recuento de palabras:</strong> {detail.analysis.word_count}
-      </p>
-      <p>
-        <strong>Palabras más frecuentes:</strong>
-      </p>
-      <ul>
-        {detail.analysis.top_words.map(([word, freq]) => (
-          <li key={word}>
-            {word} — {freq} {freq > 1 ? "veces" : "vez"}
-          </li>
-        ))}
-      </ul>
+      {/* Análisis */}
+      <section>
+        <h2 className={styles.sectionTitle}>Análisis</h2>
+        <p className="mb-3">
+          <strong>Recuento de palabras:</strong> {detail.analysis.word_count}
+        </p>
+        <p className={styles.subtitle}><strong>Palabras más frecuentes:</strong></p>
+        <ul className={styles.wordList}>
+          {topWords.map(([word, freq]) => (
+            <li key={word} className="d-flex justify-content-between">
+              <span>{word}</span>
+              <span className="badge bg-primary">{freq}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 };
