@@ -1,0 +1,33 @@
+.container {
+  background-color: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  margin: 20px;
+}
+
+.placeholder {
+  text-align: center;
+  margin: 20px;
+  font-style: italic;
+}
+
+.summary {
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.saveButton {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
