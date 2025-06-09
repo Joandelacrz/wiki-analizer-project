@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 import ArticleDetail from "./components/ArticleDetail";
+import SavedArticles from "./components/SavedArticles";
 import { WikiSearchResult, WikiDetail } from "./types";
 import { searchWikipedia, getWikiDetail } from "./services/api";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<WikiSearchResult[]>([]);
   const [selectedDetail, setSelectedDetail] = useState<WikiDetail | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const [savedArticles, setSavedArticles] = useState<WikiDetail[]>([]);
 
   const handleSearch = async (term: string) => {
@@ -20,7 +20,7 @@ const App: React.FC = () => {
     try {
       const response = await searchWikipedia(term);
       setResults(response.results);
-    } catch (e: any) {
+    } catch (e) {
       console.error(e);
       setError("Error al buscar en Wikipedia. Intenta nuevamente.");
       setResults([]);
@@ -43,7 +43,7 @@ const App: React.FC = () => {
         },
       };
       setSelectedDetail(detail);
-    } catch (e: any) {
+    } catch (e) {
       console.error(e);
       setError("Error al obtener detalle del artículo.");
     } finally {
@@ -62,7 +62,7 @@ const App: React.FC = () => {
   };
 
   const handleRemoveArticle = (pageid: number) => {
-    setSavedArticles(savedArticles.filter((a) => a.pageid !== pageid));
+    setSavedArticles((prev) => prev.filter((a) => a.pageid !== pageid));
   };
 
   return (
@@ -74,14 +74,13 @@ const App: React.FC = () => {
       <SearchBar onSearch={handleSearch} />
 
       {loading && <p>Cargando...</p>}
-
       {error && <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>}
 
       {selectedDetail ? (
         <ArticleDetail
           detail={selectedDetail}
           onBack={handleBack}
-          onSave={handleSaveArticle}
+          onSaved={() => handleSaveArticle(selectedDetail!)}
         />
       ) : (
         <>
@@ -90,11 +89,9 @@ const App: React.FC = () => {
               <h2 style={{ marginTop: "1rem" }}>Resultados de búsqueda:</h2>
               <SearchResults
                 results={results}
-                onSelect={(pageid: number) => {
-                  const selected = results.find((r) => r.pageid === pageid);
-                  if (selected) {
-                    handleSelect(pageid, selected.title);
-                  }
+                onSelect={(pageid) => {
+                  const sel = results.find((r) => r.pageid === pageid);
+                  if (sel) handleSelect(pageid, sel.title);
                 }}
               />
             </>

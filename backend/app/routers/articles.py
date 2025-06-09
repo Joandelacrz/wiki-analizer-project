@@ -1,31 +1,30 @@
+# backend/app/routers/articles.py
+
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
-from ..models import SavedArticle as Article
-from ..schemas import ArticleCreate, Article
+from .. import crud, schemas
 
 router = APIRouter(prefix="/articles", tags=["articles"])
 
 # Crear artículo
-@router.post("/", response_model=Article                                                                                        )
-def save_article(article: ArticleCreate, db: Session = Depends(get_db)):
-    db_article = Article(**article.dict())
-    db.add(db_article)
-    db.commit()
-    db.refresh(db_article)
-    return db_article
+@router.post("/", response_model=schemas.Article)
+def save_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
+    try:
+        db_article = crud.create_saved_article(db=db, article=article)
+        return db_article
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al guardar el artículo: {str(e)}")
 
 # Listar artículos guardados
-@router.get("/", response_model=list[Article])
+@router.get("/", response_model=list[schemas.Article])
 def list_articles(db: Session = Depends(get_db)):
-    return db.query(Article).all()
+    return crud.get_saved_articles(db)
 
 # Eliminar artículo
 @router.delete("/{article_id}")
 def delete_article(article_id: int, db: Session = Depends(get_db)):
-    article = db.query(Article).filter(Article.id == article_id).first()
-    if not article:
+    success = crud.delete_saved_article(db, article_id)
+    if not success:
         raise HTTPException(status_code=404, detail="Artículo no encontrado")
-    db.delete(article)
-    db.commit()
     return {"message": "Artículo eliminado"}

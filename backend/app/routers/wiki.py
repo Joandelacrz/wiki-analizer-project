@@ -1,5 +1,3 @@
-# backend/app/routers/wiki.py
-
 from fastapi import APIRouter, HTTPException, Query
 from typing import List, Dict
 from .. import wikipedia

@@ -14,19 +14,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="container my-4"
-      role="search"
-      aria-label="Buscador de artículos"
-    >
+    <form onSubmit={handleSubmit} className="container my-4" role="search">
       <div className="input-group">
         <input
           type="search"
           className="form-control"
           placeholder="Buscar artículos..."
           value={query}
-          onChange={e => setQuery(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           aria-describedby="search-help"
         />
         <button className="btn btn-primary" type="submit">

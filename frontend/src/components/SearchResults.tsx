@@ -18,12 +18,12 @@ const SearchResults: React.FC<Props> = ({ results, onSelect }) => {
   return (
     <div className="container">
       <ul className="list-group">
-        {results.map(item => (
+        {results.map((item) => (
           <li
             key={item.pageid}
-            onClick={() => onSelect(item.pageid)}
             className="list-group-item list-group-item-action"
             style={{ cursor: "pointer" }}
+            onClick={() => onSelect(item.pageid)}
           >
             {item.title}
           </li>
