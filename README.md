@@ -44,6 +44,17 @@ pip install -r requirements.txt
 
 ```
 
+🔧 2. Frontend (React + Vite)
+
+a. Configurar entorno
+Crea un archivo .env en frontend/:
+Ejemplo de url: VITE_API_URL=http://localhost:8000
+
+b. Instalar dependencias y subir el app
+cd frontend
+npm install
+npm run dev
+
 🌐 API REST - Endpoints
 GET /wiki/search?term=<texto>
 Busca artículos de Wikipedia por término.
