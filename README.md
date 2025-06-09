@@ -74,32 +74,35 @@ npm run dev
 
 La aplicación estará disponible en http://localhost:5173 por defecto.
 
+------------------------------
 🌐 API REST - Endpoints
-🔍 Buscar artículos de Wikipedia
+
+- 🔍 Buscar artículos de Wikipedia
 GET /wiki/search?term=example
 Devuelve una lista de resultados con títulos y pageid.
 
-📄 Detalles y análisis de un artículo
+- 📄 Detalles y análisis de un artículo
 GET /wiki/detail?pageid=12345
 Devuelve resumen, análisis (conteo y palabras más frecuentes) y URL de Wikipedia.
 
-💾 Guardar artículo favorito
+- 💾 Guardar artículo favorito
 POST /articles/
 Content-Type: application/json
 
+example of return:
 {
   "title": "Example Article",
   "url": "https://en.wikipedia.org/wiki/Example",
   "processed_summary": "Texto analizado..."
 }
 
-📋 Obtener artículos guardados
+- 📋 Obtener artículos guardados
 GET /articles/
 
-🗑️ Eliminar un artículo por ID
+- 🗑️ Eliminar un artículo por ID
 DELETE /articles/{id}
 
-🗄️ Base de datos
+- 🗄️ Base de datos
 Está conectada exitosamente a PostgreSQL. La tabla principal es saved_articles con el siguiente esquema:
 id: entero, clave primaria
 title: texto del artículo
@@ -112,12 +115,10 @@ Aunque la conexión a la base de datos y el esquema funcionan correctamente, act
 
 📌 Consideraciones de diseño
 Las decisiones de diseño han sido orientadas a mantener un frontend simple, limpio y funcional con una API REST clara.
-
 El análisis de texto se basa en frecuencia de palabras, excluyendo signos de puntuación.
 
-
 🛠️ Por mejorar
-Corregir persistencia real de artículos en la base de datos.
-Añadir paginación y búsqueda en artículos guardados
-Mejorar manejo de errores en el frontend.
-Agregar tests (unitarios y de integración).
+- Corregir persistencia real de artículos en la base de datos.
+- Añadir paginación y búsqueda en artículos guardados
+- Mejorar manejo de errores en el frontend.
+- Agregar tests (unitarios y de integración).
